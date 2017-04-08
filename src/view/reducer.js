@@ -3,13 +3,12 @@ import { routeReducer } from 'react-router-redux';
 import {reducer as reduxAsyncConnect} from 'redux-async-connect';
 import {reducer as form} from 'redux-form';
 
-import auth from './containers/Login/redux/reducer';
-
+import apiData from './containers/Main/redux/reducer';
 
 export default combineReducers({
 	routing: routeReducer,
 	reduxAsyncConnect,
 	form,
-	auth,
+	apiData,
 	config : function(state = {}) { return state; }
 });

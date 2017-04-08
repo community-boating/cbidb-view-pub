@@ -14,6 +14,7 @@ module.exports = Object.assign({
 	port: process.env.PORT,
 	apiHost: process.env.APIHOST || 'localhost',
 	apiPort: process.env.APIPORT,
+	requireLogin : false,
 	app: {
 		title: 'Timetracker',
 		description: 'Timetracker',

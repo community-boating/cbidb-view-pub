@@ -61,34 +61,36 @@ proxy.on('error', (error, req, res) => {
 
 app.use((req, res) => {
 	new Promise((resolve) => {
-		let options = {
-			hostname: 'localhost',
-			port: config.port,
-			path: '/api/isLoggedIn',
-			method: 'GET',
-			headers: { }
-		};
+		if (config.requireLogin) {
+			let options = {
+				hostname: 'localhost',
+				port: config.port,
+				path: '/api/isLoggedIn',
+				method: 'GET',
+				headers: { }
+			};
 
-		if (req.headers.cookie) {
-			options.headers.cookie = req.headers.cookie;
-		}
+			if (req.headers.cookie) {
+				options.headers.cookie = req.headers.cookie;
+			}
 
-		let apiReq = http.request(options, (apiRes) => {
-			let resData = '';
-			apiRes.on('data', (chunk) => {
-				resData += chunk;
+			let apiReq = http.request(options, (apiRes) => {
+				let resData = '';
+				apiRes.on('data', (chunk) => {
+					resData += chunk;
+				});
+				apiRes.on('end', () => {
+					let response = JSON.parse(resData);
+					console.log("api server returned ", resData);
+					resolve(response.data);
+				});
 			});
-			apiRes.on('end', () => {
-				let response = JSON.parse(resData);
-				console.log("api server returned ", resData);
-				resolve(response.data);
+			apiReq.on('error', () => {
+				resolve(null);
 			});
-		});
-		apiReq.on('error', () => {
-			resolve(null);
-		});
 
-		apiReq.end();
+			apiReq.end();
+		} else resolve();
 	}).then(userName => {
 		if (__DEVELOPMENT__) {
 			// Do not cache webpack stats: the script file would change since
@@ -98,13 +100,18 @@ app.use((req, res) => {
 		const client = new ApiClient(req);
 		const history = createHistory(req.originalUrl);
 
-		const store = createStore(history, client, {
+		let initialStore = (function() {
+			if (config.requireLogin) {
+				return {auth: {userName}};
+			} else return {};
+		}());
+
+		const store = createStore(history, client, Object.assign({
 			config : {
 				host : config.host,
 				port : config.port
-			},
-			auth: {userName}
-		});
+			}
+		}, initialStore));
 
 		function hydrateOnClient() {
 			res.send('<!doctype html>\n' +
