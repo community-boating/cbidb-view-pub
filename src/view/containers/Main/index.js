@@ -28,7 +28,7 @@ class Main extends React.Component {
 			window.setTimeout(() => {
 				self.props.getClasses();
 				self.queueRefresh();
-			}, 15000);
+			}, 5000);
 		};
 		this.props.getClasses();
 		this.queueRefresh();

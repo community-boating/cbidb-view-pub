@@ -9,7 +9,7 @@
   "homepage": "https://github.com/coleji/timetracker#readme",
   "main": "bin/server.js",
   "scripts": {
-    "start": "concurrent --kill-others \"npm run start-prod\" \"npm run start-prod-api\"",
+    "start": "concurrent --kill-others \"npm run start-prod\"",
     "start-prod": "better-npm-run start-prod",
     "start-prod-api": "better-npm-run start-prod-api",
     "build": "better-npm-run build",
@@ -26,8 +26,10 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
-        "PORT": 8080,
-        "APIPORT": 8080
+	"HOST": "info.community-boating.org",
+        "PORT": 8082,
+	"APIHOST": "info.community-boating.org",
+        "APIPORT": 80
       }
     },
     "start-prod-api": {
@@ -35,8 +37,10 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "production",
-        "PORT": 8080,
-        "APIPORT": 8080
+	"HOST": "info.community-boating.org",
+        "PORT": 8082,
+	"APIHOST": "info.community-boating.org",
+        "APIPORT": 80
       }
     },
     "start-dev": {

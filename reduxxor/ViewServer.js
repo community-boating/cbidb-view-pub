@@ -24,7 +24,7 @@ console.log("api server is at " + targetUrl);
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
-
+console.log(config);
 if (!config.apiDirectConnection) {
 	const proxy = httpProxy.createProxyServer({
 		target: targetUrl,
@@ -34,7 +34,8 @@ if (!config.apiDirectConnection) {
 	app.use(compression());
 
 	app.use(Express.static(path.join(__dirname, '..', 'static')));
-
+	
+	console.log("ACTUALLY setting up proxy");
 	// Proxy to API server
 	app.use('/api', (req, res) => {
 		proxy.web(req, res, {target: targetUrl});
@@ -166,6 +167,7 @@ app.use((req, res) => {
 
 if (config.port) {
 	server.listen(config.port, (err) => {
+		console.log("proxy listening to port " + config.port);
 		if (err) {
 			console.error(err);
 		}
