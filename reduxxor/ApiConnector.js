@@ -41,8 +41,8 @@ var createActionFromAPIResponse = function(params) {
 			apiEndpoint: params.apiEndpoint,
 			httpMethod: params.httpMethod,
 			postData: params.postData,
-			host : params.config.host,
-			port : params.config.port
+			host : params.config.apiHost || params.config.host,
+			port : params.config.apiPort || params.config.port
 		})
 		.then((json) => {
 			let data = json.data;

@@ -1,5 +1,5 @@
 const DEFAULT_STATE = {
-	classes: null
+	classes: []
 };
 
 const parseClassData = data => {

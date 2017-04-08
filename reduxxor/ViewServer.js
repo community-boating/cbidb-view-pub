@@ -19,45 +19,49 @@ import createStore from './CreateStore';
 import ApiClient from './ApiClient';
 import Html from './Html';
 
-const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort;
+const targetUrl = 'http://' + config.apiHost + (config.apiPort != 80 ? (':' + config.apiPort) : "");
+console.log("api server is at " + targetUrl);
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
-const proxy = httpProxy.createProxyServer({
-	target: targetUrl,
-	ws: true
-});
 
-app.use(compression());
+if (!config.apiDirectConnection) {
+	const proxy = httpProxy.createProxyServer({
+		target: targetUrl,
+		ws: true
+	});
 
-app.use(Express.static(path.join(__dirname, '..', 'static')));
+	app.use(compression());
 
-// Proxy to API server
-app.use('/api', (req, res) => {
-	proxy.web(req, res, {target: targetUrl});
-});
+	app.use(Express.static(path.join(__dirname, '..', 'static')));
 
-app.use('/ws', (req, res) => {
-	proxy.web(req, res, {target: targetUrl + '/ws'});
-});
+	// Proxy to API server
+	app.use('/api', (req, res) => {
+		proxy.web(req, res, {target: targetUrl});
+	});
 
-server.on('upgrade', (req, socket, head) => {
-	proxy.ws(req, socket, head);
-});
+	app.use('/ws', (req, res) => {
+		proxy.web(req, res, {target: targetUrl + '/ws'});
+	});
 
-// added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
-proxy.on('error', (error, req, res) => {
-	let json;
-	if (error.code !== 'ECONNRESET') {
-		console.error('proxy error', error);
-	}
-	if (!res.headersSent) {
-		res.writeHead(500, {'content-type': 'application/json'});
-	}
+	server.on('upgrade', (req, socket, head) => {
+		proxy.ws(req, socket, head);
+	});
 
-	json = {error: 'proxy_error', reason: error.message};
-	res.end(JSON.stringify(json));
-});
+	// added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
+	proxy.on('error', (error, req, res) => {
+		let json;
+		if (error.code !== 'ECONNRESET') {
+			console.error('proxy error', error);
+		}
+		if (!res.headersSent) {
+			res.writeHead(500, {'content-type': 'application/json'});
+		}
+
+		json = {error: 'proxy_error', reason: error.message};
+		res.end(JSON.stringify(json));
+	});
+}
 
 app.use((req, res) => {
 	new Promise((resolve) => {
@@ -106,11 +110,17 @@ app.use((req, res) => {
 			} else return {};
 		}());
 
+		let apiConfig = (function() {
+			if (config.apiDirectConnection) {
+				return {apiHost: config.apiHost, apiPort : config.apiPort};
+			} else return {};
+		}());
+
 		const store = createStore(history, client, Object.assign({
-			config : {
+			config : Object.assign({
 				host : config.host,
 				port : config.port
-			}
+			}, apiConfig)
 		}, initialStore));
 
 		function hydrateOnClient() {

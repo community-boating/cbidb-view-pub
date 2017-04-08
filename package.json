@@ -45,7 +45,8 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
         "PORT": 3000,
-        "APIPORT": 8080
+        "APIHOST": "api-dev.community-boating.org/api",
+        "APIPORT": 80
       }
     },
     "start-dev-api": {
@@ -54,7 +55,8 @@
         "NODE_PATH": "./api",
         "NODE_ENV": "development",
         "PORT": 3000,
-        "APIPORT": 8080
+        "APIHOST": "api-dev.community-boating.org/api",
+        "APIPORT": 80
       }
     },
     "watch-client": {
