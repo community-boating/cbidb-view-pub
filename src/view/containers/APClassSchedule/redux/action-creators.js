@@ -6,7 +6,6 @@ const getClassesActionCreator = (config, dispatch) => {
 		apiEndpoint : '/ap-class-instances',
 		config
 	}).then((data) => {
-		console.log(data);
 		if (data) {
 			dispatch({
 				type: "AP_CLASSES_SUCCESS",

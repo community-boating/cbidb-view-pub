@@ -3,7 +3,7 @@ import { routeReducer } from 'react-router-redux';
 import {reducer as reduxAsyncConnect} from 'redux-async-connect';
 import {reducer as form} from 'redux-form';
 
-import apiData from './containers/Main/redux/reducer';
+import apiData from './containers/APClassSchedule/redux/reducer';
 
 export default combineReducers({
 	routing: routeReducer,
