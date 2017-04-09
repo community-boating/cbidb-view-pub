@@ -65,6 +65,7 @@ if (!config.apiDirectConnection) {
 }
 
 app.use((req, res) => {
+	if (req.hostname == "api.community-boating.org") res.end();
 	new Promise((resolve) => {
 		if (config.requireLogin) {
 			let options = {
