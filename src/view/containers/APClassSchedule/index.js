@@ -17,7 +17,7 @@ var config = {};
 		}
 	})
 )
-class Main extends React.Component {
+class APClassSchedule extends React.Component {
 	constructor() {
 		super();
 	}
@@ -28,7 +28,7 @@ class Main extends React.Component {
 			window.setTimeout(() => {
 				self.props.getClasses();
 				self.queueRefresh();
-			}, 5000);
+			}, 10000);
 		};
 		this.props.getClasses();
 		this.queueRefresh();
@@ -57,4 +57,4 @@ class Main extends React.Component {
 	}
 }
 
-module.exports = Main;
+module.exports = APClassSchedule;

@@ -12,19 +12,26 @@ import createHistory from 'react-router/lib/createMemoryHistory';
 import {Provider} from 'react-redux';
 import PrettyError from 'pretty-error';
 import http from 'http';
+import fs from 'fs';
+import ini from 'ini';
 
 import getRoutes from '../src/view/routes';
-import config from '../src/config';
+import baseConfig from '../src/config';
 import createStore from './CreateStore';
 import ApiClient from './ApiClient';
 import Html from './Html';
+
+const allServerOptions = ini.parse(fs.readFileSync('./ini/private.ini', 'utf-8'));
+const serverOptions = allServerOptions[(baseConfig.isProduction ? "serverOptionsProduction" : "serverOptionsDevelopment")];
+console.log(serverOptions)
+const config = Object.assign({}, baseConfig, serverOptions);
 
 const targetUrl = 'http://' + config.apiHost + (config.apiPort != 80 ? (':' + config.apiPort) : "");
 console.log("api server is at " + targetUrl);
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
-console.log(config);
+
 if (!config.apiDirectConnection) {
 	const proxy = httpProxy.createProxyServer({
 		target: targetUrl,
@@ -34,7 +41,7 @@ if (!config.apiDirectConnection) {
 	app.use(compression());
 
 	app.use(Express.static(path.join(__dirname, '..', 'static')));
-	
+
 	console.log("ACTUALLY setting up proxy");
 	// Proxy to API server
 	app.use('/api', (req, res) => {
@@ -121,7 +128,8 @@ app.use((req, res) => {
 		const store = createStore(history, client, Object.assign({
 			config : Object.assign({
 				host : config.host,
-				port : config.port
+				port : config.port,
+				isBehindReverseProxy : config.isBehindReverseProxy
 			}, apiConfig)
 		}, initialStore));
 
