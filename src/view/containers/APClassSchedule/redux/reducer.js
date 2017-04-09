@@ -1,5 +1,6 @@
 const DEFAULT_STATE = {
-	classes: []
+	classes: [],
+	groupedByDate : []
 };
 
 const parseClassData = data => {
@@ -12,10 +13,24 @@ const parseClassData = data => {
 	});
 };
 
+const classDataGroupedByDate = data => {
+	return data.reduce((days, row) => {
+		if (days.length == 0 || days[days.length-1].date != row["START_DATE"]) {
+			days.push({date: row["START_DATE"], classes: []});
+		}
+		days[days.length-1].classes.push(row);
+		return days;
+	}, []);
+};
+
+
 export default function(state = DEFAULT_STATE, action) {
 	switch (action.type) {
 	case 'AP_CLASSES_SUCCESS':
-		return {classes : parseClassData(action.data)};
+		var classes = parseClassData(action.data);
+		var groupedByDate = classDataGroupedByDate(classes);
+		console.log("@@@@ ", groupedByDate);
+		return {classes, groupedByDate};
 	case 'AP_CLASSES_FAIL':
 	default:
 		return state;
