@@ -36,47 +36,24 @@ class APClassSchedule extends React.Component {
 		this.queueRefresh();
 	}
 	render() {
-		console.log("### ", this.props.groupedByDate);
-	/*	const getRowPair = day => {
-			return ()
-		}
-			<tr><td colspan="2">
-				{moment(new Date(day.date)).format("dddd, MMMM Do")}
-			</td></tr>
-			{day.classes.map(c =>
-				<tr><td style={{fontSize: "30px"}}>
-					{c["START_TIME"]}
-				</td><td>
-					{c["TYPE_NAME"]}
-				</td></tr>
-			);}
-*/
-
-		/*return (
-			<Table striped bordered condensed hover cellSpacing="5">
-				<tbody>
-					<tr><th colSpan="2">Classes</th></tr>
-					{this.props.groupedByDate.map(day => getRowPair(day))}
-				</tbody>
-			</Table>
-		);*/
-
 		return (
 			<div>
 				{this.props.groupedByDate.map(day =>
-					<div>
-						<Table bordered condensed cellSpacing="5" style={{marginBottom: 0, width: "400px"}}>
-							<tbody><tr><td colSpan="2" style={{fontSize:"30px"}}><b>
+					<div key={day.date}>
+						<Table bordered condensed cellSpacing="5" style={{marginBottom: 0, width: "900px"}}>
+							<tbody><tr><td colSpan="3" style={{fontSize:"30px", padding: "10px", backgroundColor: "#b0cbe8"}}><b>
 								{moment(new Date(day.date)).format("dddd, MMMM Do")}
 							</b></td></tr>
 							</tbody>
 						</Table>
-						<Table bordered condensed cellSpacing="5" style={{marginBottom: 0, width: "400px"}}><tbody>
+						<Table bordered condensed cellSpacing="5" style={{marginBottom: 0, width: "900px"}}><tbody>
 						{day.classes.map(c =>
-							<tr><td width="80px" style = {{fontSize: "30px"}}>
+							<tr key={c["INSTANCE_ID"]}><td width="150px" style={{fontSize: "30px", padding: "10px"}}>
 								{c["START_TIME"]}
-							</td><td style={{fontSize: "30px"}}>
+							</td><td widht="300px" style={{fontSize: "30px", padding: "10px"}}>
 								{c["TYPE_NAME"]}
+							</td><td width="450px" style={{fontSize: "30px", padding: "10px"}}>
+								{c["LOCATION_STRING"]}
 							</td></tr>
 						)}
 						</tbody></Table>
@@ -87,21 +64,4 @@ class APClassSchedule extends React.Component {
 	}
 }
 
-/*
-
-<tr>
-	<th>Class</th>
-	<th>Date</th>
-	<th>Time</th>
-	<th>Enrolled</th>
-</tr>
-{this.props.classes.map(c =>
-	<tr key={c["INSTANCE_ID"]}>
-		<td>{c["TYPE_NAME"]}</td>
-		<td>{c["START_DATE"]}</td>
-		<td>{c["START_TIME"]}</td>
-		<td>{c["ENROLLEES"]}</td>
-	</tr>
-)}
-
-*/module.exports = APClassSchedule;
+module.exports = APClassSchedule;

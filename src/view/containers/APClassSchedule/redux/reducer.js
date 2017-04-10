@@ -29,7 +29,6 @@ export default function(state = DEFAULT_STATE, action) {
 	case 'AP_CLASSES_SUCCESS':
 		var classes = parseClassData(action.data);
 		var groupedByDate = classDataGroupedByDate(classes);
-		console.log("@@@@ ", groupedByDate);
 		return {classes, groupedByDate};
 	case 'AP_CLASSES_FAIL':
 	default:
