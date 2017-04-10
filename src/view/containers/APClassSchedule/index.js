@@ -44,7 +44,7 @@ class APClassSchedule extends React.Component {
 				{moment(new Date(day.date)).format("dddd, MMMM Do")}
 			</td></tr>
 			{day.classes.map(c =>
-				<tr><td>
+				<tr><td style={{fontSize: "30px"}}>
 					{c["START_TIME"]}
 				</td><td>
 					{c["TYPE_NAME"]}
@@ -66,16 +66,16 @@ class APClassSchedule extends React.Component {
 				{this.props.groupedByDate.map(day =>
 					<div>
 						<Table bordered condensed cellSpacing="5" style={{marginBottom: 0, width: "400px"}}>
-							<tbody><tr><td colSpan="2"><b>
+							<tbody><tr><td colSpan="2" style={{fontSize:"30px"}}><b>
 								{moment(new Date(day.date)).format("dddd, MMMM Do")}
 							</b></td></tr>
 							</tbody>
 						</Table>
 						<Table bordered condensed cellSpacing="5" style={{marginBottom: 0, width: "400px"}}><tbody>
 						{day.classes.map(c =>
-							<tr><td width="80px">
+							<tr><td width="80px" style = {{fontSize: "30px"}}>
 								{c["START_TIME"]}
-							</td><td>
+							</td><td style={{fontSize: "30px"}}>
 								{c["TYPE_NAME"]}
 							</td></tr>
 						)}

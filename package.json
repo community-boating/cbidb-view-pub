@@ -76,7 +76,6 @@
     "md5": "^2.2.1",
     "moment": "^2.15.2",
     "moment-timezone": "^0.5.7",
-    "oracledb": "^1.13.0",
     "piping": "^0.3.0",
     "pretty-error": "^1.2.0",
     "react": "^0.14.2",
