@@ -1,6 +1,7 @@
 const DEFAULT_STATE = {
 	classes: [],
-	groupedByDate : []
+	groupedByDate : [],
+	doInvert: false
 };
 
 const parseClassData = data => {
@@ -29,7 +30,13 @@ export default function(state = DEFAULT_STATE, action) {
 	case 'AP_CLASSES_SUCCESS':
 		var classes = parseClassData(action.data);
 		var groupedByDate = classDataGroupedByDate(classes);
-		return {classes, groupedByDate};
+		return {classes, groupedByDate, doInvert: state.doInvert};
+	case "INVERT":
+		return {
+			classes: state.classes,
+			groupedByDate: state.groupedByDate,
+			doInvert: !state.doInvert
+		};
 	case 'AP_CLASSES_FAIL':
 	default:
 		return state;

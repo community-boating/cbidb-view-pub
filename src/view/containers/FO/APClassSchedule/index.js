@@ -36,17 +36,18 @@ class APClassSchedule extends React.Component {
 		this.queueRefresh();
 	}
 	render() {
+		var tableStyle = {marginBottom: 0, width: "900px"};
 		return (
 			<div>
 				{this.props.groupedByDate.map(day =>
 					<div key={day.date}>
-						<Table bordered condensed cellSpacing="5" style={{marginBottom: 0, width: "900px"}}>
+						<Table bordered condensed cellSpacing="5" style={this.props.doInvert ? Object.assign({}, tableStyle, {float:"right"}) : tableStyle}>
 							<tbody><tr><td colSpan="3" style={{fontSize:"30px", padding: "10px", backgroundColor: "#b0cbe8"}}><b>
 								{moment(new Date(day.date)).format("dddd, MMMM Do")}
 							</b></td></tr>
 							</tbody>
 						</Table>
-						<Table bordered condensed cellSpacing="5" style={{marginBottom: 0, width: "900px"}}><tbody>
+						<Table bordered condensed cellSpacing="5" style={this.props.doInvert ? Object.assign({}, tableStyle, {float:"right"}) : tableStyle}><tbody>
 						{day.classes.map(c =>
 							<tr key={c["INSTANCE_ID"]}><td width="150px" style={{fontSize: "30px", padding: "10px"}}>
 								{c["START_TIME"]}

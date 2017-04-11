@@ -1,4 +1,4 @@
-import { createActionFromAPIResponse } from '../../../../../reduxxor/ApiConnector';
+import { createActionFromAPIResponse } from '../../../../../../reduxxor/ApiConnector';
 
 const getClassesActionCreator = (config, dispatch) => {
 	createActionFromAPIResponse({
