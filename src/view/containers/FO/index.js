@@ -30,7 +30,7 @@ class FO extends React.Component {
 			self.interval = window.setTimeout(() => {
 				this.props.invert();
 				queueFlip();
-			}, 5000);
+			}, 300000);
 		};
 		queueFlip();
 	}
