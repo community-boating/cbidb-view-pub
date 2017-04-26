@@ -37,31 +37,60 @@ class APClassSchedule extends React.Component {
 	}
 	render() {
 		var tableStyle = {marginBottom: 0, width: "900px"};
-		return (
-			<div>
-				{this.props.groupedByDate.map(day =>
-					<div key={day.date}>
-						<Table bordered condensed cellSpacing="5" style={this.props.doInvert ? Object.assign({}, tableStyle, {float:"right"}) : tableStyle}>
-							<tbody><tr><td colSpan="3" style={{fontSize:"30px", padding: "10px", backgroundColor: "#b0cbe8"}}><b>
-								{moment(new Date(day.date)).format("dddd, MMMM Do")}
+		var dayComponents = {
+			multiDay : (
+				<div>
+					{this.props.groupedByDate.map(day =>
+						<div key={day.date}>
+							<Table bordered condensed cellSpacing="5" style={this.props.doInvert ? Object.assign({}, tableStyle, {float:"right"}) : tableStyle}>
+								<tbody><tr><td colSpan="3" style={{fontSize:"30px", padding: "10px", backgroundColor: "#b0cbe8"}}><b>
+									{moment(new Date(day.date)).format("dddd, MMMM Do")}
+								</b></td></tr>
+								</tbody>
+							</Table>
+							<Table bordered condensed cellSpacing="5" style={this.props.doInvert ? Object.assign({}, tableStyle, {float:"right"}) : tableStyle}><tbody>
+							{day.classes.map(c =>
+								<tr key={c["INSTANCE_ID"]}><td width="150px" style={{fontSize: "30px", padding: "10px"}}>
+									{c["START_TIME"]}
+								</td><td widht="300px" style={{fontSize: "30px", padding: "10px"}}>
+									{c["TYPE_NAME"]}
+								</td><td width="450px" style={{fontSize: "30px", padding: "10px"}}>
+									{c["LOCATION_STRING"]}
+								</td></tr>
+							)}
+							</tbody></Table>
+						</div>
+					)}
+				</div>
+			),
+			singleDay : (
+				<div>
+					{this.props.groupedByDate.map(day =>
+						<div key={day.date}>
+							<Table bordered condensed cellSpacing="5" style={this.props.doInvert ? Object.assign({}, tableStyle, {float:"right"}) : tableStyle}><tbody>
+							<tr><td style={{fontSize:"30px", padding: "10px", backgroundColor: "#b0cbe8"}}><b>
+								TIME
+							</b></td><td style={{fontSize:"30px", padding: "10px", backgroundColor: "#b0cbe8"}}><b>
+								CLASS
+							</b></td><td style={{fontSize:"30px", padding: "10px", backgroundColor: "#b0cbe8"}}><b>
+								LOCATION
 							</b></td></tr>
-							</tbody>
-						</Table>
-						<Table bordered condensed cellSpacing="5" style={this.props.doInvert ? Object.assign({}, tableStyle, {float:"right"}) : tableStyle}><tbody>
-						{day.classes.map(c =>
-							<tr key={c["INSTANCE_ID"]}><td width="150px" style={{fontSize: "30px", padding: "10px"}}>
-								{c["START_TIME"]}
-							</td><td widht="300px" style={{fontSize: "30px", padding: "10px"}}>
-								{c["TYPE_NAME"]}
-							</td><td width="450px" style={{fontSize: "30px", padding: "10px"}}>
-								{c["LOCATION_STRING"]}
-							</td></tr>
-						)}
-						</tbody></Table>
-					</div>
-				)}
-			</div>
-		);
+							{day.classes.map(c =>
+								<tr key={c["INSTANCE_ID"]}><td width="150px" style={{fontSize: "30px", padding: "10px"}}>
+									{c["START_TIME"]}
+								</td><td widht="300px" style={{fontSize: "30px", padding: "10px"}}>
+									{c["TYPE_NAME"]}
+								</td><td width="450px" style={{fontSize: "30px", padding: "10px"}}>
+									{c["LOCATION_STRING"]}
+								</td></tr>
+							)}
+							</tbody></Table>
+						</div>
+					)}
+				</div>
+			)
+		};
+		return dayComponents.singleDay;
 	}
 }
 
