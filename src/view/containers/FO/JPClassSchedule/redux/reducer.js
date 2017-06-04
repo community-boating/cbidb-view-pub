@@ -10,10 +10,9 @@ const parseClassData = data => {
 		row.forEach((value, i) => {
 			rowObj[data.metaData[i].name] = value;
 		});
-		if (!rowObj.INSTRUCTOR_NAME_FIRST && !rowObj.INSTRUCTOR_NAME_LAST) rowObj.INSTRUCTOR = "Some Instructor";
+		if (!rowObj.INSTRUCTOR_NAME_FIRST && !rowObj.INSTRUCTOR_NAME_LAST) rowObj.INSTRUCTOR = "";
 		else rowObj.INSTRUCTOR = (rowObj.INSTRUCTOR_NAME_FIRST || "") + " " + (rowObj.INSTRUCTOR_NAME_LAST || "");
 
-		if (!rowObj.LOCATION_NAME) rowObj.LOCATION_NAME = "Some Classroom";
 		return rowObj;
 	});
 };

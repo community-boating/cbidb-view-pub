@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'; //eslint-disable-line no-unused-vars
 import { Table } from 'react-bootstrap';
+import moment from 'moment';
 
 import getClasses from './redux/action-creators';
 
@@ -56,7 +57,16 @@ class APClassSchedule extends React.Component {
 		super();
 	}
 	componentDidMount() {
+		var self = this;
 		config = this.props.config;
+		config.startDate = (function() {
+			var startDate = self.props.location.query.startDate;
+			if (!startDate || !/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/.test(startDate)) {
+				return moment().format("MM/DD/YYYY");
+			} else {
+				return startDate;
+			}
+		}());
 		this.queueRefresh = () => {
 			var self = this;
 			window.setTimeout(() => {
@@ -74,11 +84,6 @@ class APClassSchedule extends React.Component {
 				<div>
 					{this.props.groupedByDate.map(day => {
 						var lastTime = null;
-						/*<td style={{fontSize:"30px", padding: "10px", backgroundColor: TOP_BAR_COLOR}}><b>
-							LOCATION
-						</b></td><td style={{fontSize:"30px", padding: "10px", backgroundColor: TOP_BAR_COLOR}}><b>
-							INSTRUCTOR
-						</b></td>*/
 						return (<div key={day.date}>
 							<Table bordered condensed cellSpacing="5" style={this.props.doInvert ? Object.assign({}, tableStyle, {float:"right"}) : tableStyle}><tbody>
 							<tr><td style={{fontSize:"30px", padding: "10px", backgroundColor: TOP_BAR_COLOR}}><b>
@@ -87,13 +92,6 @@ class APClassSchedule extends React.Component {
 								CLASS
 							</b></td></tr>
 							{day.classes.map(c => {
-								/*<td width="300px" style={{fontSize: "30px", padding: "10px", backgroundColor: color}}>
-									{c["TYPE_NAME"].replace(/ /g,'\xa0')}
-								</td><td width="450px" style={{fontSize: "30px", padding: "10px"}}>
-									{(c["LOCATION_NAME"] || "").replace(/ /g,'\xa0')}
-								</td><td width="450px" style={{fontSize: "30px", padding: "10px"}}>
-									{(c["INSTRUCTOR"] || "").replace(/ /g,'\xa0')}
-								</td>*/
 								var color = mapColor(c["TYPE_NAME"]);
 								var time = (function() {
 									if (lastTime == c["START_TIME"]) return "";
@@ -110,7 +108,12 @@ class APClassSchedule extends React.Component {
 									{time}
 								</td>
 								<td style={classStyleObj}>
-									<span style={{fontWeight: "bold"}}>{c["TYPE_NAME"].replace(/ /g,'\xa0')}</span><br /><span style={{fontSize: "0.7em"}}>{"\xa0\xa0\xa0\xa0" + (c["INSTRUCTOR"] || "").replace(/ /g,'\xa0') + " @ " + (c["LOCATION_NAME"] || "").replace(/ /g,'\xa0')}</span>
+									<span style={{fontWeight: "bold"}}>{c["TYPE_NAME"].replace(/ /g,'\xa0')}</span>
+									<br />
+									<span style={{fontSize: "0.7em"}}>
+										{"\xa0\xa0\xa0\xa0" + (c["INSTRUCTOR"] || "").replace(/ /g,'\xa0') +
+										(c["LOCATION_NAME"] ? " @ " : "") + (c["LOCATION_NAME"] || "").replace(/ /g,'\xa0')}
+									</span>
 								</td>
 							</tr>);
 							})}
