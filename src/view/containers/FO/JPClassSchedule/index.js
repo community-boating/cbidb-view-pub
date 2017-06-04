@@ -74,33 +74,45 @@ class APClassSchedule extends React.Component {
 				<div>
 					{this.props.groupedByDate.map(day => {
 						var lastTime = null;
+						/*<td style={{fontSize:"30px", padding: "10px", backgroundColor: TOP_BAR_COLOR}}><b>
+							LOCATION
+						</b></td><td style={{fontSize:"30px", padding: "10px", backgroundColor: TOP_BAR_COLOR}}><b>
+							INSTRUCTOR
+						</b></td>*/
 						return (<div key={day.date}>
 							<Table bordered condensed cellSpacing="5" style={this.props.doInvert ? Object.assign({}, tableStyle, {float:"right"}) : tableStyle}><tbody>
 							<tr><td style={{fontSize:"30px", padding: "10px", backgroundColor: TOP_BAR_COLOR}}><b>
 								TIME
 							</b></td><td style={{fontSize:"30px", padding: "10px", backgroundColor: TOP_BAR_COLOR}}><b>
 								CLASS
-							</b></td><td style={{fontSize:"30px", padding: "10px", backgroundColor: TOP_BAR_COLOR}}><b>
-								LOCATION
-							</b></td><td style={{fontSize:"30px", padding: "10px", backgroundColor: TOP_BAR_COLOR}}><b>
-								INSTRUCTOR
 							</b></td></tr>
 							{day.classes.map(c => {
+								/*<td width="300px" style={{fontSize: "30px", padding: "10px", backgroundColor: color}}>
+									{c["TYPE_NAME"].replace(/ /g,'\xa0')}
+								</td><td width="450px" style={{fontSize: "30px", padding: "10px"}}>
+									{(c["LOCATION_NAME"] || "").replace(/ /g,'\xa0')}
+								</td><td width="450px" style={{fontSize: "30px", padding: "10px"}}>
+									{(c["INSTRUCTOR"] || "").replace(/ /g,'\xa0')}
+								</td>*/
 								var color = mapColor(c["TYPE_NAME"]);
 								var time = (function() {
 									if (lastTime == c["START_TIME"]) return "";
 									else return c["START_TIME"];
 								}());
 								lastTime = c["START_TIME"];
-								return (<tr key={c["INSTANCE_ID"]}><td width="150px" style={{fontSize: "30px", padding: "10px"}}>
+								var timeStyleObj = {border: "none", fontSize: "30px", padding: "10px"};
+								var classStyleObj = {fontSize: "30px", padding: "12px 10px 5px 10px", backgroundColor: color, lineHeight: "25px"};
+								if (time != "") {
+									timeStyleObj.borderTop = "3px solid black";
+									classStyleObj.borderTop = "3px solid black";
+								}
+								return (<tr key={c["INSTANCE_ID"]}><td width="90px" style={timeStyleObj}>
 									{time}
-								</td><td width="300px" style={{fontSize: "30px", padding: "10px", backgroundColor: color}}>
-									{c["TYPE_NAME"].replace(/ /g,'\xa0')}
-								</td><td width="450px" style={{fontSize: "30px", padding: "10px", backgroundColor: color}}>
-									{(c["LOCATION_NAME"] || "").replace(/ /g,'\xa0')}
-								</td><td width="450px" style={{fontSize: "30px", padding: "10px", backgroundColor: color}}>
-									{(c["INSTRUCTOR"] || "").replace(/ /g,'\xa0')}
-								</td></tr>);
+								</td>
+								<td style={classStyleObj}>
+									<span style={{fontWeight: "bold"}}>{c["TYPE_NAME"].replace(/ /g,'\xa0')}</span><br /><span style={{fontSize: "0.7em"}}>{"\xa0\xa0\xa0\xa0" + (c["INSTRUCTOR"] || "").replace(/ /g,'\xa0') + " @ " + (c["LOCATION_NAME"] || "").replace(/ /g,'\xa0')}</span>
+								</td>
+							</tr>);
 							})}
 							</tbody></Table>
 					</div>);
