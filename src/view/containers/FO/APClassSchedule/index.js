@@ -10,8 +10,8 @@ var config = {};
 @connect(
 	state => ({
 		config: state.config,
-		classes: state.apiData.classes,
-		groupedByDate : state.apiData.groupedByDate
+		classes: state.apClassData.classes,
+		groupedByDate : state.apClassData.groupedByDate
 	}),
 	dispatch => ({
 		getClasses : () => {

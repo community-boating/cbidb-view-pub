@@ -9,7 +9,7 @@ import RightBanner from './rightBanner';
 
 @connect(
 	state => ({
-		doInvert : state.apiData.doInvert
+		doInvert : state.apClassData.doInvert
 	}),
 	dispatch => ({
 		invert: () => {
