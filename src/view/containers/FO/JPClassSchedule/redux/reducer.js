@@ -11,7 +11,7 @@ const parseClassData = data => {
 			rowObj[data.metaData[i].name] = value;
 		});
 		if (!rowObj.INSTRUCTOR_NAME_FIRST && !rowObj.INSTRUCTOR_NAME_LAST) rowObj.INSTRUCTOR = "";
-		else rowObj.INSTRUCTOR = (rowObj.INSTRUCTOR_NAME_FIRST || "") + " " + (rowObj.INSTRUCTOR_NAME_LAST || "");
+		else rowObj.INSTRUCTOR = (rowObj.INSTRUCTOR_NAME_FIRST || ""); //+ " " + (rowObj.INSTRUCTOR_NAME_LAST || "");
 
 		return rowObj;
 	});
