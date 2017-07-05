@@ -67,6 +67,14 @@ class APClassSchedule extends React.Component {
 				return startDate;
 			}
 		}());
+		config.hourOverride = (function() {
+			var hour = self.props.location.query.hour;
+			if (!hour || !/^[0-9]{1,2}$/.test(hour) || hour < 0 || hour > 23) {
+				return null;
+			} else {
+				return hour;
+			}
+		}());
 		this.queueRefresh = () => {
 			var self = this;
 			window.setTimeout(() => {
