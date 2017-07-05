@@ -12,16 +12,16 @@ const MS_HOUR = MS_MINUTE * 60;
 // Max # of classes that can be on the screen at once
 const MAX_ON_SCREEN = 12;
 
-// Always show classes between 1 hour ago and 1 hour from now.
+// Always show classes between 1.5 hours ago and 1 hour from now.
 var getMustShow = msAfterNow => {
-	return (msAfterNow > -1 * MS_HOUR && msAfterNow < 1 * MS_HOUR);
+	return (msAfterNow > (-1.5 * MS_HOUR) && msAfterNow < (1 * MS_HOUR));
 };
 
-const parseClassData = (data, hourOverride) => {
+const parseClassData = (data, hourOverride, dontFilter) => {
 	var MS_NOW = (function() {
 		if (null != hourOverride) {
 			console.log("OVERRIDING HOUR TO BE " + hourOverride);
-			return moment().hour(hourOverride).valueOf();
+			return moment().hour(hourOverride).minute(0).valueOf();
 		} else {
 			return moment().valueOf();
 		}
@@ -85,7 +85,7 @@ const parseClassData = (data, hourOverride) => {
 		});
 	});
 
-	return result.filter(rowObj => rowObj.DO_SHOW);
+	return result.filter(rowObj => dontFilter || rowObj.DO_SHOW);
 };
 
 const classDataGroupedByDate = data => {
@@ -102,7 +102,7 @@ const classDataGroupedByDate = data => {
 export default function(state = DEFAULT_STATE, action) {
 	switch (action.type) {
 	case 'JP_CLASSES_SUCCESS':
-		var classes = parseClassData(action.data, action.hourOverride);
+		var classes = parseClassData(action.data, action.hourOverride, action.dontFilter);
 		var groupedByDate = classDataGroupedByDate(classes);
 		return {classes, groupedByDate, doInvert: state.doInvert};
 	case 'JP_CLASSES_FAIL':

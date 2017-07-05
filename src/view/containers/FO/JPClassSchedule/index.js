@@ -75,6 +75,9 @@ class APClassSchedule extends React.Component {
 				return hour;
 			}
 		}());
+		config.dontFilter = (function() {
+			return self.props.location.query.dontFilter == "true";
+		}());
 		this.queueRefresh = () => {
 			var self = this;
 			window.setTimeout(() => {

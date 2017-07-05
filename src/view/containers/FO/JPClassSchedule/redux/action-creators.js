@@ -10,7 +10,8 @@ const getClassesActionCreator = (config, dispatch) => {
 			dispatch({
 				type: "JP_CLASSES_SUCCESS",
 				data,
-				hourOverride : config.hourOverride
+				hourOverride : config.hourOverride,
+				dontFilter : config.dontFilter
 			});
 		} else {
 			dispatch({
