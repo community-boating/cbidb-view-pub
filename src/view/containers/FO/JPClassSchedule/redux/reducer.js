@@ -10,11 +10,11 @@ const MS_MINUTE = 1000*60;
 const MS_HOUR = MS_MINUTE * 60;
 
 // Max # of classes that can be on the screen at once
-const MAX_ON_SCREEN = 12;
+const MAX_ON_SCREEN = 17;
 
 // Always show classes between 1.5 hours ago and 1 hour from now.
 var getMustShow = msAfterNow => {
-	return (msAfterNow > (-1.5 * MS_HOUR) && msAfterNow < (1 * MS_HOUR));
+	return (msAfterNow > (-2.5 * MS_HOUR) && msAfterNow < (1 * MS_HOUR));
 };
 
 const parseClassData = (data, hourOverride, dontFilter) => {
