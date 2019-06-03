@@ -1,4 +1,4 @@
-import moment from 'moment';
+import * as moment from 'moment';
 
 const DEFAULT_STATE = {
 	classes: [],
@@ -28,7 +28,7 @@ const parseClassData = (data, hourOverride, dontFilter) => {
 	}());
 
 	var result = data.rows.map(row => {
-		var rowObj = {};
+		var rowObj: any = {};
 		row.forEach((value, i) => {
 			rowObj[data.metaData[i].name] = value;
 		});

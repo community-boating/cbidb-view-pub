@@ -6,7 +6,6 @@ import { Dispatch } from 'redux';
 
 import { LoginState } from "../core/reducer/loginStateReducer";
 import { RootState } from '../rootReducer';
-import JoomlaBase from '../theme/joomla/JoomlaBase';
 import FO from "./FO/index"
 import APClassSchedule from "./FO/APClassSchedule/index"
 import JPClassSchedule from "./FO/JPClassSchedule/index"
@@ -44,17 +43,15 @@ class App extends React.Component<Props> {
 
 		return (
 			<div>
-				<JoomlaBase>
-					<ConnectedRouter history={this.props.history}>
-						<Switch>
-						<Route path="/" component={FO} />
-						<Route path="/fo" component={FO} />
-						<Route path="/ap-class-instances" component={APClassSchedule} />
-						<Route path="/jp-class-instances" component={JPClassSchedule} />
-						</Switch>
-					</ConnectedRouter>
-					{devTools}
-				</JoomlaBase>
+				<ConnectedRouter history={this.props.history}>
+					<Switch>
+					<Route path="/" component={FO} />
+					<Route path="/fo" component={FO} />
+					<Route path="/ap-class-instances" component={APClassSchedule} />
+					<Route path="/jp-class-instances" component={JPClassSchedule} />
+					</Switch>
+				</ConnectedRouter>
+				{devTools}
 			</div>
 		)
 	}

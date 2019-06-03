@@ -15,15 +15,6 @@ import { makeRootReducer, StaticState } from '../rootReducer'
 import { some, none } from 'fp-ts/lib/Option';
 import {replaceWithOption} from '../util/deserializeOption';
 
-require("../../lib/array-polyfill")
-
-const arr1 = ['a', 'b', 'c']
-const arr2 = arr1.zipWithIndex()
-console.log(arr2)
-const s = some("tssdf")
-const n = none
-console.log(s.map(e => e.length))
-
 
 export const history = createBrowserHistory()
 
