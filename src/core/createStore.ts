@@ -1,8 +1,7 @@
 import { createStore as reduxCreateStore, applyMiddleware, compose, Action } from 'redux';
-import { RootReducer, RootState } from '../rootReducer'
 
 interface CreateStoreParameters {
-  rootReducer: RootReducer,
+  rootReducer: any,
   enhancers?: any[],
   middlewares?: any[],
   seedState?: any
@@ -16,7 +15,7 @@ export default function createStore(params: CreateStoreParameters) {
 	//TODO: prod vs dev mode, i.e. dont initialize DevTools stuff
 
 
-	const rootReducer: (state: RootState, action: Action) => RootState = function(state: RootState, action: Action) {
+	const rootReducer: (state: any, action: Action) => any = function(state: any, action: Action) {
 		return params.rootReducer(state, action);
 	}
 

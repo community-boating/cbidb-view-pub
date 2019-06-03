@@ -5,13 +5,12 @@ import { Route, Switch } from 'react-router';
 import { Dispatch } from 'redux';
 
 import { LoginState } from "../core/reducer/loginStateReducer";
-import { RootState } from '../rootReducer';
 import FO from "./FO/index"
 import APClassSchedule from "./FO/APClassSchedule/index"
 import JPClassSchedule from "./FO/JPClassSchedule/index"
 
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: any) => ({
 	state,
 	router: state.router,
 	isServer: state.staticState.isServer,

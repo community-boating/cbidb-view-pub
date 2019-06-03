@@ -103,7 +103,7 @@ getConfig.then(serverConfig => {
 			const history = createMemoryHistory({
 				initialEntries: [req.path]
 			});
-			const staticState: StaticState = {
+			const staticState: any = {
 				getMoment:  () => moment(),
 				isServer: true,
 				jpDirectorNameFirst: "Niko",
