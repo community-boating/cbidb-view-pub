@@ -3,7 +3,7 @@ import { createActionFromAPIResponse } from '../../../../../../reduxxor/ApiConne
 const getClassesActionCreator = (config, dispatch) => {
 	createActionFromAPIResponse({
 		httpMethod: 'GET',
-		apiEndpoint : '/jp-class-instances?startDate=' + config.startDate,
+		apiEndpoint : '/jp-class-sections?startDate=' + config.startDate,
 		config
 	}).then((data) => {
 		if (data) {

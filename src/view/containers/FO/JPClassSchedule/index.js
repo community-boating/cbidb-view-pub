@@ -13,8 +13,12 @@ const mapColor = className => {
 	switch (className) {
 	case "Learn-to-Sail & Kayak":
 	case "Mercury Green Review":
+	case "Beginner Sailing":
 		return "#a3ffa3";
 	case "Mainsail":
+	case "Intermediate Sailing":
+	case "Mercury Fast Track":
+	case "Mercury Clinic":
 		return "#ffffa3";
 	case "Jib":
 		return "#ffa3a3";
@@ -32,8 +36,10 @@ const mapColor = className => {
 		return "#ffa3a3";
 	case "Keelboat 1":
 	case "Keelboat 2":
+	case "Keelboat":
 		return "#ffa3a3";
 	case "Environmental Science":
+	case "RoboSail":
 		return "#a3ffff";
 	default:
 		return "#FFFFFF";
@@ -44,7 +50,8 @@ const mapColor = className => {
 	state => ({
 		config: state.config,
 		classes: state.jpClassData.classes,
-		groupedByDate : state.jpClassData.groupedByDate
+		groupedByDate : state.jpClassData.groupedByDate,
+		groupedBySection: state.jpClassData.groupedBySection
 	}),
 	dispatch => ({
 		getClasses : () => {
@@ -90,10 +97,23 @@ class APClassSchedule extends React.Component {
 	}
 	render() {
 		var tableStyle = {marginBottom: 0, width: "900px"};
+		const getFlagURL = flagName => {
+			const newName = (function() {
+				switch (flagName) {
+				case "Juliett":
+					return "Juliet";
+				case "X-Ray":
+					return "X-ray";
+				default:
+					return flagName;
+				}
+			}());
+			return `https://fileserv.community-boating.org/joomsource/signal-flags/ICS_${newName}.svg`
+		}
 		var dayComponents = {
 			singleDay : (
 				<div>
-					{this.props.groupedByDate.map(day => {
+					{this.props.groupedBySection.map(day => {
 						var lastTime = null;
 						return (<div key={day.date}>
 							<Table bordered condensed cellSpacing="5" style={this.props.doInvert ? Object.assign({}, tableStyle, {float:"right"}) : tableStyle}><tbody>
@@ -122,8 +142,15 @@ class APClassSchedule extends React.Component {
 									<span style={{fontWeight: "bold"}}>{c["TYPE_NAME"].replace(/ /g,'\xa0')}</span>
 									<br />
 									<span style={{fontSize: "0.7em"}}>
-										{"\xa0\xa0\xa0\xa0" + (c["INSTRUCTOR"] || "").replace(/ /g,'\xa0') +
-										(c["LOCATION_NAME"] ? " @ " : "") + (c["LOCATION_NAME"] || "").replace(/ /g,'\xa0')}
+										<table><tbody>
+										{c.sections.map(s => (<tr><td>
+											{"\xa0\xa0\xa0\xa0"}
+											{s["SECTION_NAME"] ? (<span><img style={{border: "1px solid #999"}} height="20px" src={getFlagURL(s["SECTION_NAME"])} />{s["SECTION_NAME"] + ":\xa0\xa0"}</span>) : ""}
+											{(s["INSTRUCTOR"] || "").replace(/ /g,'\xa0')}
+											{(s["LOCATION_NAME"] ? " @ " : "")}
+											{(s["LOCATION_NAME"] || "").replace(/ /g,'\xa0')}
+										</td></tr>))}										
+										</tbody></table>
 									</span>
 								</td>
 							</tr>);

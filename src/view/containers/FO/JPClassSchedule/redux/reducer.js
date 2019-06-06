@@ -3,6 +3,7 @@ import moment from 'moment';
 const DEFAULT_STATE = {
 	classes: [],
 	groupedByDate : [],
+	groupedBySection: [],
 	doInvert: false
 };
 
@@ -98,13 +99,43 @@ const classDataGroupedByDate = data => {
 	}, []);
 };
 
+const groupSectionsByInstance = data => {
+	return data.map(day => ({
+		...day,
+		classes: day.classes.reduce((agg, e) => {
+			const sameInstance = agg.reduce((index, priorClass, i) => {
+				if (priorClass["INSTANCE_ID"] == e["INSTANCE_ID"]) return i;
+				else return index;
+			}, -1)
+			const sectionObj = {
+				SECTION_ID: e.SECTION_ID,
+				SECTION_NAME: e.SECTION_NAME,
+				INSTRUCTOR: e.INSTRUCTOR,
+				INSTRUCTOR_NAME_FIRST: e.INSTRUCTOR_NAME_FIRST,
+				INSTRUCTOR_NAME_LAST: e.INSTRUCTOR_NAME_LAST,
+				LOCATION_NAME: e.LOCATION_NAME
+			}
+			if (sameInstance > -1) {
+				agg[sameInstance].sections.push(sectionObj)
+				return agg;
+			} else {
+				return agg.concat({
+					...e,
+					sections: [sectionObj]
+				})
+			}
+		}, [])
+	}))
+}
+
 
 export default function(state = DEFAULT_STATE, action) {
 	switch (action.type) {
 	case 'JP_CLASSES_SUCCESS':
 		var classes = parseClassData(action.data, action.hourOverride, action.dontFilter);
 		var groupedByDate = classDataGroupedByDate(classes);
-		return {classes, groupedByDate, doInvert: state.doInvert};
+		var groupedBySection = groupSectionsByInstance(groupedByDate)
+		return {classes, groupedByDate, groupedBySection, doInvert: state.doInvert};
 	case 'JP_CLASSES_FAIL':
 	default:
 		return state;
