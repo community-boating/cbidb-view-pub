@@ -116,7 +116,7 @@
     "font-awesome": "^4.7.0",
     "font-awesome-webpack": "0.0.4",
     "json-loader": "^0.5.4",
-    "node-sass": "^3.4.2",
+    "node-sass": "^4.13.1",
     "react-a11y": "^0.2.6",
     "react-addons-test-utils": "^0.14.0",
     "react-transform-catch-errors": "^1.0.0",
